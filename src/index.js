@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Reconciler from "react-reconciler";
 
 import "./styles.css";
 
@@ -12,5 +13,39 @@ function App() {
   );
 }
 
+const HostConfig = {
+  now: Date.now,
+  getRootHostContext: nextRootInstance => {},
+  getChildHostContext: (context, type, rootInstance) => {},
+  shouldSetTextContent: (type, nextProps) => {},
+  prepareForCommit: containerInfo => {},
+  resetAfterCommit: containerInfo => {},
+  createTextInstance: (
+    newText,
+    rootContainerInstance,
+    currentHostContext,
+    workInProgress
+  ) => {},
+  createInstance: (
+    type,
+    newProps,
+    rootContainerInstance,
+    currentHostContext,
+    workInProgress
+  ) => {}
+};
+
+const Renderer = Reconciler(HostConfig);
+
+const ReactTOM = {
+  render: (element, container) => {
+    if (!container._rootContainer) {
+      container._rootContainer = Renderer.createContainer(container, false);
+    }
+
+    Renderer.updateContainer(element, container._rootContainer);
+  }
+};
+
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+ReactTOM.render(<App />, rootElement);
