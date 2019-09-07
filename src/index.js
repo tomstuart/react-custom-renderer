@@ -32,7 +32,17 @@ const HostConfig = {
     rootContainerInstance,
     currentHostContext,
     workInProgress
-  ) => {}
+  ) => {},
+  supportsMutation: true,
+  appendInitialChild: (parent, node) => {},
+  finalizeInitialChildren: (
+    instance,
+    type,
+    newProps,
+    rootContainerInstance,
+    currentHostContext
+  ) => {},
+  appendChildToContainer: (parent, node) => {}
 };
 
 const Renderer = Reconciler(HostConfig);
